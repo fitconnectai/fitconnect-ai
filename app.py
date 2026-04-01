@@ -94,7 +94,7 @@ def generate_plan():
         scope_instruction = "Generate a plan for Day 1 only."
 
     # Filter exercises for the prompt to keep it concise but strictly relevant
-    valid_exercises = [name for name, url in all_exercises.items() if url and name[0].isupper()]
+    valid_exercises = [name for name, url in all_exercises.items() if url and (name[0].isupper() or name[0].isdigit())]
     exercise_pool = ", ".join(valid_exercises)
 
     prompt = f"""
@@ -212,7 +212,7 @@ def chat():
                 
         allowed_list = list(ALL_EXERCISES.keys())
         # only take original capitalized keys for prompt that have a valid url
-        allowed_exercises = [k for k in allowed_list if k[0].isupper() and ALL_EXERCISES[k]]
+        allowed_exercises = [k for k in allowed_list if (k[0].isupper() or k[0].isdigit()) and ALL_EXERCISES[k]]
         
         chat_session = chat_sessions.get(uid)
         if not chat_session:
