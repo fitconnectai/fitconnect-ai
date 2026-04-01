@@ -9,13 +9,10 @@ except ImportError:
     print("The 'google-genai' package is not installed.")
     exit(1)
 
-# Ensure the API key is accessible for genai.Client()
 api_key = os.environ.get("GEMINI_API_KEY")
 if not api_key:
-    # Fallback to hardcoded key for local testing ONLY if needed, 
-    # but preferably fail if not set in production.
-    api_key = "AIzaSyBNt8okgW-6tKvabQP9Om5S4qyTYOog1aQ"
-
+    print("WARNING: GEMINI_API_KEY environment variable not set. Please set it before running the server.")
+    # We do not hardcode the key here for security reasons.
 
 app = Flask(__name__, static_folder='static')
 app.secret_key = "super_secret_fitness_key_for_sessions"
