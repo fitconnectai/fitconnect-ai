@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>FitConnect AI</title>
+    <link rel="icon" type="image/png" href="/static/logo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div id="app-container">
+        <!-- Welcome Screen -->
+        <div id="welcome-screen" class="screen active">
+            <img src="/static/logo.png" alt="FitConnect AI Logo" class="welcome-logo">
+            <h1 class="glow">FitConnect AI</h1>
+            <p>Your AI-Powered Personal Trainer &amp; Dietitian</p>
+            <button id="btn-google-login" class="btn-google">
+                <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="22" height="22" alt="Google">
+                Sign in with Google
+            </button>
+            <div class="remember-row">
+                <input type="checkbox" id="remember-me" checked>
+                <label for="remember-me">Remember Me</label>
+            </div>
+        </div>
+
+        <!-- Questionnaire Screen -->
+        <div id="questionnaire-screen" class="screen">
+            <div class="header">
+                <h2>Profile Setup</h2>
+            </div>
+            <div class="scroll-content">
+                <form id="metrics-form">
+                    <div class="input-group">
+                        <label>Basic Metrics (Age, Gender, Height, Weight)</label>
+                        <input type="text" id="input-basic" required placeholder="e.g. 25, Male, 5'10, 180lbs">
+                    </div>
+                    <div class="input-group">
+                        <label>Primary Goal</label>
+                        <input type="text" id="input-goal" required placeholder="e.g. Fat loss, muscle gain">
+                    </div>
+                    <div class="input-group">
+                        <label>Dietary Preferences / Restrictions</label>
+                        <input type="text" id="input-diet" required placeholder="e.g. Vegan, Keto, None">
+                    </div>
+                    <div class="input-group">
+                        <label>Daily Activity Level</label>
+                        <input type="text" id="input-activity" required placeholder="e.g. Sedentary desk job">
+                    </div>
+                    <div class="input-group">
+                        <label>Lifter Experience Level</label>
+                        <select id="input-experience">
+                            <option value="Beginner">Beginner</option>
+                            <option value="Intermediate">Intermediate</option>
+                            <option value="Advanced">Advanced</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>Gym Commitment (Days per week)</label>
+                        <select id="input-days">
+                            <option value="1-2 days">1-2 days</option>
+                            <option value="3-4 days" selected>3-4 days</option>
+                            <option value="5-6 days">5-6 days</option>
+                            <option value="7 days">Every day</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>Session Duration</label>
+                        <select id="input-duration">
+                            <option value="30 minutes">30 minutes</option>
+                            <option value="45 minutes">45 minutes</option>
+                            <option value="60 minutes" selected>60+ minutes</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>Equipment Access</label>
+                        <select id="input-equipment">
+                            <option value="Full Gym">Full Gym Access</option>
+                            <option value="Dumbbells Only">Dumbbells Only</option>
+                            <option value="Home Gym">Home Gym (Basic equipment)</option>
+                            <option value="Bodyweight">Bodyweight Only (No equipment)</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>Health Conditions / Injuries</label>
+                        <input type="text" id="input-health" required placeholder="e.g. None, bad knees">
+                    </div>
+                    <!-- Plan Type Toggle -->
+                    <div class="plan-type-toggle">
+                        <span class="plan-type-label">📅 Plan View</span>
+                        <div class="toggle-group" id="plan-type-group">
+                            <button type="button" class="toggle-btn active" data-value="single">Day 1 Only</button>
+                            <button type="button" class="toggle-btn" data-value="all">Full Week</button>
+                        </div>
+                        <p class="toggle-hint">Full Week takes longer to generate</p>
+                    </div>
+                    <input type="hidden" id="input-plan-type" value="single">
+                    <button type="submit" class="btn-primary" id="btn-generate">Generate Plan</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Loading Screen -->
+        <div id="loading-screen" class="screen">
+            <div class="spinner"></div>
+            <h3>Analyzing Profile...</h3>
+            <p>Crafting your custom plan.</p>
+        </div>
+
+        <!-- Chat / Plan Screen -->
+        <div id="chat-screen" class="screen">
+            <div class="header chat-header">
+                <h2>Your Plan</h2>
+                <div class="header-actions">
+                    <button id="btn-clear-chat" class="btn-text">🗑 Clear</button>
+                    <button id="btn-signout" class="btn-text">↩ Sign Out</button>
+                    <button id="btn-delete-account" class="btn-danger-text">✕ Delete</button>
+                </div>
+            </div>
+            <div class="chat-container" id="chat-box">
+                <!-- Messages go here -->
+            </div>
+            <div class="input-area">
+                <input type="text" id="chat-input" placeholder="Ask AI about your plan...">
+                <button id="btn-send" class="btn-icon">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M22 2L11 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M22 2L15 22L11 13L2 9L22 2Z" fill="currentColor" />
+                    </svg>
+                </button>
+            </div>
+            <div class="disclaimer-footer">Exercise demonstrations provided by BurnFit</div>
+        </div>
+    </div>
+    <!-- Lightbox Modal for Fullscreen Gifs -->
+    <div id="lightbox" class="lightbox">
+        <div class="lightbox-content">
+            <button class="lightbox-close" id="lightbox-close">&times;</button>
+            <div class="lightbox-img-wrapper">
+                <img id="lightbox-img" class="lightbox-img" src="" alt="Expanded exercise">
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="/static/js/script.js"></script>
+</body>
+</html>
