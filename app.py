@@ -154,7 +154,7 @@ CONSTRAINTS
 - Output ONLY valid JSON
 """
     try:
-        chat = client.chats.create(model='gemini-1.5-flash')
+        chat = client.chats.create(model='gemini-2.0-flash')
         response = chat.send_message(prompt)
         chat_sessions[uid] = chat
         
@@ -227,7 +227,7 @@ JSON scheme for plan:
   "days": [ {{ "day": "Day 2", "focus": "...", "exercises": [ {{ "name": "Exact Name", "sets": 3, "reps": "10", "description": "..." }} ] }} ]
 }}"""
             chat_session = client.chats.create(
-                model='gemini-1.5-flash',
+                model='gemini-2.0-flash',
                 config=types.GenerateContentConfig(system_instruction=sys_inst)
             )
             chat_sessions[uid] = chat_session
